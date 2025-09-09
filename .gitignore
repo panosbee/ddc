@@ -24,7 +24,12 @@ logs/
 venv/
 ENV/
 .env
-.env.*
+.env.local
+.env.development
+.env.test
+.env.production
+# Allow .env.template to be committed
+!.env.template
 *.egg-info/
 .eggs/
 build/
