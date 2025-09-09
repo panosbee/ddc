@@ -251,6 +251,7 @@ def get_file_compat(patient_id, file_id):
         logger.error(f"Error serving file {file_id} for patient {patient_id}: {e}")
         return jsonify({"error": "An internal server error occurred"}), 500
 
+
 # --- Endpoint για διαγραφή αρχείων (για συμβατότητα με το frontend) ---
 @app.route('/api/files/<string:patient_id>/<string:file_id>', methods=['DELETE'])
 @jwt_required()
@@ -338,9 +339,7 @@ def handle_exception(e):
 # === ΑΦΑΙΡΕΘΗΚΕ Η ΔΙΠΛΗ ΚΑΤΑΧΩΡΗΣΗ ΤΟΥ SCENARIOS BLUEPRINT ===
 # ΤΟ scenarios_bp καταχωρείται ήδη μέσα από το all_blueprints loop
 
-# --- Εκκίνηση Server --- 
 if __name__ == '__main__':
     print("Starting Flask server...")
-    # Final blueprint status
     print(f"🎯 Final blueprint status: {list(app.blueprints.keys())}")
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True, use_reloader=False)

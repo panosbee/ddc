@@ -140,15 +140,13 @@ Now analyze the following prompt:"""},
         payload = {
             "model": "deepseek-chat",
             "messages": messages,
-            "tools": tools,
-            "tool_choice": "auto",
             "max_tokens": 2000,
-            "temperature": 0.3,  # Lower temperature for more consistent medical responses
-            "top_p": 0.9,
-            "response_format": {"type": "json_object"}  # Enforce JSON output
+            "temperature": 0.3,
+            "top_p": 0.9
         }
         
         logger.info("Sending request to DeepSeek API for genetics analysis...")
+        logger.info("DeepSeek payload: %s", json.dumps(payload, ensure_ascii=False, default=str))
         
         last_error = None
         for attempt in range(DEEPSEEK_MAX_RETRIES):
@@ -244,8 +242,14 @@ Now analyze the following prompt:"""},
                                     "error": str(e)
                                 })
                         
-                        return "AI model didn't return final response after tool execution"
-                    
+                    return "AI model didn't return final response after tool execution"
+                    if not final_content.strip():
+                                logger.error("DeepSeek API returned empty content.")
+                                return json.dumps({
+                                "response": "AI model did not return any content.",
+                                "sources_used": [],
+                                "confidence": "Low"
+                            })
                     # Process unified response format
                     try:
                         response_json = json.loads(content)

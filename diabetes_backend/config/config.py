@@ -23,7 +23,7 @@ MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
 DATABASE_NAME = 'diabetes_db'
 
 # Ρυθμίσεις Tesseract
-TESSERACT_CMD = r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe'
+TESSERACT_CMD = os.environ.get('TESSERACT_CMD', r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe')
 
 # Validate required API keys
 if not DEEPSEEK_API_KEY:
